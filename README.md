@@ -11,7 +11,7 @@ SunnyGPT offers a simple, modern conversational interface with:
 - Automatic chat titles
 - Streaming AI responses
 - Light and dark themes
-- A locally hosted Gemma 3 4B language model
+- A locally hosted Gemini-3.6-flash language model
 - A JSON-based storage system
 
 ## ✨ Features
