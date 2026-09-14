@@ -45,3 +45,26 @@ Each conversation has its own:
 Chat data is stored locally in chats.json.
 
 This means conversations can remain available after the Streamlit application is restarted, provided that the JSON file is preserved.
+
+### 5. Automatic chat titles
+
+When a new conversation receives its first user message, SunnyGPT automatically creates a title from that message.
+
+Long titles are shortened to keep the sidebar organized.
+
+### 6. Delete conversations
+
+Users can delete individual conversations from the sidebar.
+
+The application includes a confirmation step before permanently removing a chat from the local JSON store.
+
+### 7. Light and dark themes
+
+Users can switch between:
+
+- Dark mode
+- Light mode
+
+The interface uses custom CSS to style the main application area, sidebar, chat input, buttons, borders, and text.
+
+
