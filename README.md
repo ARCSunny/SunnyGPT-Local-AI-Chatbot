@@ -5,7 +5,6 @@ SunnyGPT is a ChatGPT-inspired conversational AI application built with Python, 
 SunnyGPT offers a simple, modern conversational interface with:
 
 - A ChatGPT-style layout
-
 - A sidebar containing previous conversations
 
 - Creation of new chats
