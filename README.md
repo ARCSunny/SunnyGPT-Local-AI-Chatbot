@@ -307,3 +307,24 @@ Streamlit will provide a local address, usually similar to:
 http://localhost:8501
 
 Open that address in your browser.
+
+## 🚀 Running the Application
+
+Once the application is running:
+
+(1) Open SunnyGPT in your browser.
+
+(2) Enter a question in the chat input.
+
+(3) Press Enter to send the prompt.
+
+(4) Wait while Gemma 3 4B generates the response.
+
+(5) Use New chat to start another conversation.
+
+(6) Select a previous chat from the sidebar to reopen it.
+
+(7) Use the delete button to remove a conversation.
+
+(8) Switch between light and dark mode using the theme button.
+
