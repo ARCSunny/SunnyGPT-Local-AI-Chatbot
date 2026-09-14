@@ -93,3 +93,44 @@ These components make the application usable in a browser without building a sep
 | UUID | Unique chat-session identifiers |
 | Datetime | Chat timestamps |
 | CSS | Custom interface styling |
+
+## 📁 Project Structure
+
+AI-CHATBOT/
+│
+├── app.py
+├── memory.py
+├── chats.json
+├── requirements.txt
+└── README.md
+
+### app.py
+
+The main Streamlit application.
+
+It is responsible for:
+
+- Configuring the page
+- Managing the interface theme
+- Rendering the sidebar
+- Displaying chat messages
+- Accepting user prompts
+- Sending conversation history to Ollama
+- Streaming AI responses
+- Creating, switching, and deleting chats
+
+### memory.py
+
+Contains the ChatStore class, which manages chat persistence.
+
+The class provides methods for:
+
+- Loading chat data
+- Saving chat data
+- Creating chats
+- Retrieving chats
+- Listing all chats
+- Adding messages
+- Renaming chats
+- Deleting chats
+- Checking whether a chat is empty
