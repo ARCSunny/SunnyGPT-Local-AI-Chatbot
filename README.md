@@ -165,3 +165,7 @@ After conversations are created, it contains chat records similar to:
 }
 ```
 The example above is illustrative. Actual IDs and timestamps are generated automatically.
+
+### requirements.txt
+
+Contains the Python packages required to install and run the application.
