@@ -217,4 +217,26 @@ SunnyGPT sends a request to the Ollama chat endpoint using a payload similar to:
 ```
 The application reads the streamed response and displays the generated text incrementally.
 
+## 🔮 Possible Future Improvements
 
+The following improvements could make SunnyGPT more powerful and suitable for a larger portfolio project:
+
+- Add message editing and regeneration.
+
+- Add chat export to TXT, Markdown, or PDF.
+
+- Add file upload and document question-answering.
+
+- Add Retrieval-Augmented Generation (RAG).
+
+- Add authentication and user accounts.
+
+- Replace JSON storage with a database.
+
+- Add conversation search.
+
+- Add message timestamps.
+
+- Add a settings page.
+
+- Add usage limits and rate limiting.
