@@ -95,7 +95,7 @@ These components make the application usable in a browser without building a sep
 | CSS | Custom interface styling |
 
 ## 📁 Project Structure
-
+```
 AI-CHATBOT/
 │
 ├── app.py
@@ -103,7 +103,7 @@ AI-CHATBOT/
 ├── chats.json
 ├── requirements.txt
 └── README.md
-
+```
 ### app.py
 
 The main Streamlit application.
