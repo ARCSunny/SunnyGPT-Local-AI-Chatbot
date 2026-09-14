@@ -1,8 +1,7 @@
 import os
 import uuid
-from google import genai  # Kept for reference or removed if unused
+from google import genai
 from memory import ChatStore
-from openai import OpenAI
 import streamlit as st
 
 # --------------------------------------------------------------------------
@@ -15,12 +14,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Initialize Groq Client via Streamlit Secrets (OpenAI-compatible format)
-client = OpenAI(
-    base_url="https://api.groq.com/openai/v1",
-    api_key=st.secrets.get("GROQ_API_KEY", ""),
-)
-MODEL_NAME = "llama-3.3-70b-versatile"
+# Initialize official Google GenAI Client via Streamlit Secrets
+client = genai.Client(api_key=st.secrets.get("GEMINI_API_KEY", ""))
+MODEL_NAME = "gemma-4-12b-it"
 APP_NAME = "SunnyGPT"
 APP_LOGO = "💬"
 SUNNY_COLOR = "#3b82f6"
@@ -286,22 +282,24 @@ def clean_text(text: str) -> str:
   return text
 
 
-def stream_response(history):
-  messages = []
-  for msg in history:
-    role = "user" if msg["role"] == "user" else "assistant"
-    messages.append({"role": role, "content": msg["content"]})
+def stream_response(history, current_user_input):
+  contents = []
+  for msg in history[:-1]:
+    role = "user" if msg["role"] == "user" else "model"
+    contents.append({"role": role, "parts": [{"text": msg["content"]}]})
+
+  if not contents or history[-1]["content"] != current_user_input:
+    contents.append({"role": "user", "parts": [{"text": current_user_input}]})
 
   try:
-    response_stream = client.chat.completions.create(
-        model=MODEL_NAME, messages=messages, stream=True
+    response_stream = client.models.generate_content_stream(
+        model=MODEL_NAME, contents=contents
     )
     for chunk in response_stream:
-      delta = chunk.choices[0].delta.content
-      if delta:
-        yield clean_text(delta)
+      if chunk.text:
+        yield clean_text(chunk.text)
   except Exception as e:
-    yield f"⚠️ Error communicating with Groq API: {e}"
+    yield f"⚠️ Error communicating with Google GenAI API: {e}"
 
 
 def switch_chat(chat_id: str):
@@ -338,7 +336,6 @@ with st.sidebar:
             <span class="brand-name">
                 <span style="color: {SUNNY_COLOR};">Sunny</span><span style="color: {GPT_COLOR};">GPT</span>
             </span>
-
         </div>
         """,
       unsafe_allow_html=True,
@@ -447,7 +444,7 @@ if user_input:
 
     history = store.get(st.session_state.current_chat_id)["messages"]
 
-    for chunk in stream_response(history):
+    for chunk in stream_response(history, user_input):
       response_text += chunk
       placeholder.markdown(response_text + "▌")
 
