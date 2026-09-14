@@ -80,4 +80,16 @@ The application uses Streamlit components such as:
 
 These components make the application usable in a browser without building a separate frontend framework.
 
+### 🧰 Tech Stack
 
+| Technology | Purpose |
+| :--- | :--- |
+| Python | Application logic |
+| Streamlit | Web interface and application framework |
+| Ollama | Local LLM runtime |
+| Gemma 3 4B | AI language model |
+| Requests | HTTP communication with Ollama |
+| JSON | Persistent chat storage |
+| UUID | Unique chat-session identifiers |
+| Datetime | Chat timestamps |
+| CSS | Custom interface styling |
