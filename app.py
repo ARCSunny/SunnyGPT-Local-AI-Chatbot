@@ -16,7 +16,7 @@ st.set_page_config(
 
 # Initialize official Google GenAI Client via Streamlit Secrets
 client = genai.Client(api_key=st.secrets.get("GEMINI_API_KEY", ""))
-MODEL_NAME = "gemini-3.7-flash"
+MODEL_NAME = "gemini-2.5-flash"  # Active supported Gemini model
 APP_NAME = "SunnyGPT"
 APP_LOGO = "💬"
 SUNNY_COLOR = "#3b82f6"
@@ -284,12 +284,16 @@ def clean_text(text: str) -> str:
 
 def stream_response(history, current_user_input):
   contents = []
-  for msg in history[:-1]:
+
+  # Safely parse history, omitting the absolute last element if it matches the current input to avoid duplication
+  history_to_process = history[:-1] if len(history) > 0 else []
+
+  for msg in history_to_process:
     role = "user" if msg["role"] == "user" else "model"
     contents.append({"role": role, "parts": [{"text": msg["content"]}]})
 
-  if not contents or history[-1]["content"] != current_user_input:
-    contents.append({"role": "user", "parts": [{"text": current_user_input}]})
+  # Ensure the final payload item is strictly a user turn
+  contents.append({"role": "user", "parts": [{"text": current_user_input}]})
 
   try:
     response_stream = client.models.generate_content_stream(
