@@ -87,7 +87,7 @@ These components make the application usable in a browser without building a sep
 | Python | Application logic |
 | Streamlit | Web interface and application framework |
 | Ollama | Local LLM runtime |
-| Gemma 3 4B | AI language model |
+| Gemini-3.6-Flash | AI language model |
 | Requests | HTTP communication with Ollama |
 | JSON | Persistent chat storage |
 | UUID | Unique chat-session identifiers |
@@ -189,7 +189,7 @@ Conversation history is loaded
 History is sent to Ollama
           │
           ▼
-Gemma 3 4B generates a response
+Gemini-3.6-Flash generates a response
           │
           ▼
 Response is streamed to Streamlit
@@ -205,7 +205,7 @@ The chat interface is refreshed
 SunnyGPT sends a request to the Ollama chat endpoint using a payload similar to:
 ```
 {
-  "model": "gemma3:4b",
+  "model": "gemini-3.6-flash",
   "messages": [
     {
       "role": "user",
