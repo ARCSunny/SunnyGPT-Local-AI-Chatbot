@@ -169,3 +169,50 @@ The example above is illustrative. Actual IDs and timestamps are generated autom
 ### requirements.txt
 
 Contains the Python packages required to install and run the application.
+
+## ⚙️ How the Application Works
+
+The application follows this general flow:
+```
+User enters a prompt
+          │
+          ▼
+Streamlit receives the prompt
+          │
+          ▼
+Prompt is saved to the current chat
+          │
+          ▼
+Conversation history is loaded
+          │
+          ▼
+History is sent to Ollama
+          │
+          ▼
+Gemma 3 4B generates a response
+          │
+          ▼
+Response is streamed to Streamlit
+          │
+          ▼
+Assistant response is saved
+          │
+          ▼
+The chat interface is refreshed
+```
+### Ollama request format
+
+SunnyGPT sends a request to the Ollama chat endpoint using a payload similar to:
+```
+{
+  "model": "gemma3:4b",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Explain artificial intelligence."
+    }
+  ],
+  "stream": true
+}
+```
+The application reads the streamed response and displays the generated text incrementally.
