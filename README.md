@@ -67,4 +67,17 @@ Users can switch between:
 
 The interface uses custom CSS to style the main application area, sidebar, chat input, buttons, borders, and text.
 
+### 8. Responsive Streamlit interface
+
+The application uses Streamlit components such as:
+
+- st.sidebar
+- st.chat_message
+- st.chat_input
+- st.button
+- st.columns
+- st.session_state
+
+These components make the application usable in a browser without building a separate frontend framework.
+
 
