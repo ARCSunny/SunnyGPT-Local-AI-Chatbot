@@ -1,8 +1,8 @@
 import streamlit as st
-import requests
 import json
 import uuid
 from memory import ChatStore
+from google import genai
 
 # --------------------------------------------------------------------------
 # Page config
@@ -14,8 +14,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-OLLAMA_URL = "http://localhost:11434/api/chat"
-MODEL_NAME = "gemma3:4b"
+# Initialize Gemini client via Streamlit Secrets
+client = genai.Client(api_key=st.secrets.get("GEMINI_API_KEY", ""))
+MODEL_NAME = "gemini-2.5-flash"
 APP_NAME = "SunnyGPT"
 APP_LOGO = "💬"
 SUNNY_COLOR = "#3b82f6"  
@@ -66,14 +67,11 @@ else:
     }
 
 # --------------------------------------------------------------------------
-# Full-screen theme coverage: every Streamlit layout layer, the header
-# toolbar, and the fixed bottom dock all get themed — no black/white
-# leftovers regardless of which mode is active.
+# Styling
 # --------------------------------------------------------------------------
 st.markdown(
     f"""
     <style>
-        /* Core layout layers */
         .stApp,
         [data-testid="stAppViewContainer"],
         [data-testid="stMain"],
@@ -110,7 +108,6 @@ st.markdown(
 
         footer {{visibility: hidden;}}
 
-        /* Sidebar background & border */
         section[data-testid="stSidebar"] {{
             background-color: {C['sidebar_bg']} !important;
             border-right: 1px solid {C['border']};
@@ -160,19 +157,10 @@ st.markdown(
             margin: 14px 4px 6px 4px;
         }}
 
-        /* Tighten chat history row spacing — both within a row (the
-           columns themselves) and between rows (Streamlit's default
-           ~1rem gap between successive element/vertical blocks) */
         [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] {{
             align-items: center !important;
             gap: 4px !important;
             margin-bottom: 4px !important;
-        }}
-        [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {{
-            gap: 0.25rem !important;
-        }}
-        [data-testid="stSidebar"] [data-testid="stElementContainer"] {{
-            margin-bottom: 0 !important;
         }}
 
         section[data-testid="stSidebar"] .stButton > button {{
@@ -198,7 +186,6 @@ st.markdown(
             border-color: {C['muted']} !important;
         }}
 
-        /* Fix delete button sizing and centering */
         .delete-btn div[data-testid="stButton"] button {{
             width: 38px !important;
             min-width: 38px !important;
@@ -295,28 +282,24 @@ def clean_text(text: str) -> str:
 
 
 def stream_response(history):
-    payload = {
-        "model": MODEL_NAME,
-        "messages": history,
-        "stream": True,
-    }
-
+    contents = []
+    for msg in history:
+        role = "user" if msg["role"] == "user" else "model"
+        contents.append({
+            "role": role,
+            "parts": [{"text": msg["content"]}]
+        })
+    
     try:
-        response = requests.post(OLLAMA_URL, json=payload, stream=True, timeout=120)
-    except requests.exceptions.ConnectionError:
-        yield "⚠️ Couldn't reach Ollama. Make sure `ollama serve` is running locally."
-        return
-
-    for line in response.iter_lines():
-        if not line:
-            continue
-        try:
-            decoded = line.decode("utf-8")
-            data = json.loads(decoded)
-            if "message" in data and "content" in data["message"]:
-                yield clean_text(data["message"]["content"])
-        except json.JSONDecodeError:
-            continue
+        response_stream = client.models.generate_content_stream(
+            model=MODEL_NAME,
+            contents=contents
+        )
+        for chunk in response_stream:
+            if chunk.text:
+                yield clean_text(chunk.text)
+    except Exception as e:
+        yield f"⚠️ Error communicating with Gemini API: {e}"
 
 
 def switch_chat(chat_id: str):
