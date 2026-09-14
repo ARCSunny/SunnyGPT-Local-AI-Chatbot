@@ -216,3 +216,94 @@ SunnyGPT sends a request to the Ollama chat endpoint using a payload similar to:
 }
 ```
 The application reads the streamed response and displays the generated text incrementally.
+
+## 💻 Local Installation
+
+### Prerequisites
+
+Before running SunnyGPT locally, install:
+
+- Python 3.9 or newer
+- Ollama
+- Git — optional, but recommended for cloning the repository
+
+You will also need enough disk space and system resources to run the Gemma 3 4B model.
+
+### Step 1: Clone the repository
+
+After uploading the project to GitHub, clone it using:
+
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+
+Move into the project directory:
+
+cd YOUR-REPOSITORY
+
+Replace YOUR-USERNAME/YOUR-REPOSITORY with your actual GitHub repository path.
+
+### Step 2: Create a virtual environment
+
+Windows:
+
+python -m venv venv
+
+Activate it in Command Prompt:
+
+venv\Scripts\activate
+
+Activate it in PowerShell:
+
+venv\Scripts\Activate.ps1
+
+Linux or macOS:
+
+python3 -m venv venv
+source venv/bin/activate
+
+### Step 3: Install Python dependencies
+
+Run:
+
+pip install -r requirements.txt
+
+### Step 4: Install Ollama
+
+Download and install Ollama from its official website:
+
+https://ollama.com/
+
+After installation, verify that Ollama is available:
+
+ollama --version
+
+### Step 5: Download the Gemma 3 4B model
+
+Run:
+
+ollama pull gemma3:4b
+
+This downloads the model required by SunnyGPT.
+
+### Step 6: Start Ollama
+
+Start the Ollama service:
+
+ollama serve
+
+Keep this process running.
+
+On some operating systems, Ollama may already run as a background service. If ollama serve reports that the address is already in use, check whether Ollama is already running.
+
+### Step 7: Run SunnyGPT
+
+Open another terminal in the project directory and activate the virtual environment if necessary.
+
+Then run:
+
+streamlit run app.py
+
+Streamlit will provide a local address, usually similar to:
+
+http://localhost:8501
+
+Open that address in your browser.
