@@ -16,7 +16,7 @@ st.set_page_config(
 
 # Initialize Gemini client via Streamlit Secrets
 client = genai.Client(api_key=st.secrets.get("GEMINI_API_KEY", ""))
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 APP_NAME = "SunnyGPT"
 APP_LOGO = "💬"
 SUNNY_COLOR = "#3b82f6"  
