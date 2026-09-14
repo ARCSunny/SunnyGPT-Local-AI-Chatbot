@@ -134,3 +134,34 @@ The class provides methods for:
 - Renaming chats
 - Deleting chats
 - Checking whether a chat is empty
+
+### chats.json
+
+A local JSON file used to store conversations.
+
+The initial file contains an empty JSON object:
+```
+{}
+
+After conversations are created, it contains chat records similar to:
+
+{
+  "chat-id": {
+    "id": "chat-id",
+    "title": "Example conversation",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hello!"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! How can I help you?"
+      }
+    ],
+    "created_at": "2026-09-14T12:00:00",
+    "updated_at": "2026-09-14T12:01:00"
+  }
+}
+```
+The example above is illustrative. Actual IDs and timestamps are generated automatically.
